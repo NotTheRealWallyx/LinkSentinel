@@ -41,4 +41,4 @@ LinkSentinel helps ensure your docs don’t have dead links, improving user expe
 
 ## License
 
-MIT
+This project is licensed under the GNU GPL v3.
