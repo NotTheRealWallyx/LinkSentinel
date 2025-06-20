@@ -10,31 +10,21 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/setup-python@v4
-      with:
-        python-version: "3.11"
-
-    - name: Install Rust (needed for Rye)
+    - name: Install Rye
       shell: bash
       run: |
-        curl https://sh.rustup.rs -sSf | sh -s -- -y
-        echo "$HOME/.cargo/bin" >> $GITHUB_PATH
-        echo "export PATH=$HOME/.cargo/bin:$PATH" >> $GITHUB_ENV
+        curl -sSf https://rye.astral.sh/get | bash -s -- --yes
+        echo "$HOME/.rye/shims" >> $GITHUB_PATH
+        echo "export PATH=$HOME/.rye/shims:$PATH" >> $GITHUB_ENV
 
-    - name: Install Rye from source
+    - name: Install dependencies
       shell: bash
       run: |
-        source $HOME/.cargo/env
-        cargo install --git https://github.com/mitsuhiko/rye.git rye
-        echo "Rye version: $(rye --version)"
-
-    - name: Install dependencies from pyproject.toml
-      shell: bash
-      run: |
-        rye self install
+        export PATH="$HOME/.rye/shims:$PATH"
         rye sync --no-venv
 
     - name: Run link validator
       shell: bash
       run: |
+        export PATH="$HOME/.rye/shims:$PATH"
         python ${{ github.action_path }}/linksentinel/link_validator.py ${{ inputs.path }}
