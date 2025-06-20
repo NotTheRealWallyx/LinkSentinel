@@ -24,7 +24,7 @@ runs:
     - name: Install dependencies from pyproject.toml using pdm
       shell: bash
       run: |
-        pdm install --no-venv
+        PDM_IGNORE_VENV=1 pdm install
 
     - name: Run link validator
       shell: bash
