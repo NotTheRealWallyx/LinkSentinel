@@ -10,16 +10,16 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Setup Rye and install deps
+    - name: Setup Rye and install dependencies
       shell: bash
       run: |
         curl -sSf https://rye-up.com/get | bash
         export PATH="$HOME/.rye/shims:$PATH"
-        rye self install
-        rye sync --no-venv
+        ~/.rye/shims/rye self install
+        ~/.rye/shims/rye sync --no-venv
+        echo "$HOME/.rye/shims" >> $GITHUB_PATH
 
     - name: Run link validator
       shell: bash
       run: |
-        export PATH="$HOME/.rye/shims:$PATH"
         python ${{ github.action_path }}/linksentinel/link_validator.py ${{ inputs.path }}
