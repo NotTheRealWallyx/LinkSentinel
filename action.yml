@@ -10,21 +10,21 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Install Rye
+    - name: Download Rye prebuilt binary
       shell: bash
       run: |
-        curl -sSf https://rye.astral.sh/get | bash -s -- --yes
-        echo "$HOME/.rye/shims" >> $GITHUB_PATH
-        echo "export PATH=$HOME/.rye/shims:$PATH" >> $GITHUB_ENV
+        mkdir -p "$HOME/.rye"
+        curl -L https://github.com/astral-sh/rye/releases/latest/download/rye-x86_64-unknown-linux-gnu.tar.gz | tar -xz -C "$HOME/.rye"
+        echo "$HOME/.rye" >> $GITHUB_PATH
+        echo "export PATH=$HOME/.rye:$PATH" >> $GITHUB_ENV
 
-    - name: Install dependencies
+    - name: Install dependencies from pyproject.toml
       shell: bash
       run: |
-        export PATH="$HOME/.rye/shims:$PATH"
+        rye self install --yes
         rye sync --no-venv
 
     - name: Run link validator
       shell: bash
       run: |
-        export PATH="$HOME/.rye/shims:$PATH"
         python ${{ github.action_path }}/linksentinel/link_validator.py ${{ inputs.path }}
