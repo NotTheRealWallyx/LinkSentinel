@@ -30,3 +30,7 @@ runs:
       shell: bash
       run: |
         python ${{ github.action_path }}/linksentinel/link_validator.py "${{ inputs.path }}"
+
+branding:
+  icon: "check-circle"
+  color: "blue"
