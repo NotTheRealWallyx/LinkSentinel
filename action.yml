@@ -1,14 +1,25 @@
 name: LinkSentinel
 description: Validate links in Markdown and reStructuredText docs
+
 inputs:
   path:
     description: "Directory to scan for links"
     required: false
     default: "."
+
 runs:
   using: "composite"
   steps:
-    - run: pip install requests
+    - name: Install Rye
+      run: curl -sSf https://rye-up.com/get | bash
+      shell: bash
+
+    - name: Add Rye to PATH
+      run: echo "$HOME/.rye/shims" >> $GITHUB_PATH
+      shell: bash
+
+    - name: Install dependencies
+      run: rye sync --no-venv
       shell: bash
 
     - run: python ${{ github.action_path }}/linksentinel/link_validator.py ${{ inputs.path }}
