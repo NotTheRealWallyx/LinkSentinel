@@ -6,7 +6,7 @@ authors = ["Mikel Sanchez <nottherealwallyx@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.9"
+python = ">=3.11"
 requests = ">=2.32.4,<3.0.0"
 
 [tool.poetry.group.dev.dependencies]
