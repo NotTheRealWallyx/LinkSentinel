@@ -14,14 +14,25 @@ runs:
       with:
         python-version: "3.11"
 
-    - name: Setup Rye and install dependencies
+    - name: Install Rust (needed for Rye)
       shell: bash
       run: |
-        curl -sSf https://rye-up.com/get | bash
-        export PATH="$HOME/.rye/shims:$PATH"
-        ~/.rye/shims/rye self install
-        ~/.rye/shims/rye sync --no-venv
-        echo "$HOME/.rye/shims" >> $GITHUB_PATH
+        curl https://sh.rustup.rs -sSf | sh -s -- -y
+        echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+        echo "export PATH=$HOME/.cargo/bin:$PATH" >> $GITHUB_ENV
+
+    - name: Install Rye from source
+      shell: bash
+      run: |
+        source $HOME/.cargo/env
+        cargo install --git https://github.com/mitsuhiko/rye.git rye
+        echo "Rye version: $(rye --version)"
+
+    - name: Install dependencies from pyproject.toml
+      shell: bash
+      run: |
+        rye self install
+        rye sync --no-venv
 
     - name: Run link validator
       shell: bash
