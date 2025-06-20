@@ -1,0 +1,11 @@
+name: Link Sentinel External Usage
+
+on: push
+
+jobs:
+  validate-links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run LinkSentinel Action from branch
+        uses: NotTheRealWallyx/LinkSentinel@7-setup-proper-installation-procedure-managed-by-poetry
