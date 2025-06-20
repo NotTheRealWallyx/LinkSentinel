@@ -11,11 +11,10 @@ runs:
   using: "composite"
   steps:
     - name: Install Rye
-      run: curl -sSf https://rye-up.com/get | bash
-      shell: bash
-
-    - name: Add Rye to PATH
-      run: echo "$HOME/.rye/shims" >> $GITHUB_PATH
+      run: |
+        curl -sSf https://rye-up.com/get | bash
+        export PATH="$HOME/.rye/shims:$PATH"
+        echo "$HOME/.rye/shims" >> $GITHUB_PATH
       shell: bash
 
     - name: Install dependencies
