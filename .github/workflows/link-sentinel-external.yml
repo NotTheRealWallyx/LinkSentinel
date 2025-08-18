@@ -6,6 +6,6 @@ jobs:
   validate-links:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Run LinkSentinel Action from branch
         uses: NotTheRealWallyx/LinkSentinel@7-setup-proper-installation-procedure-managed-by-poetry
